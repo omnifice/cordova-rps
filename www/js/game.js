@@ -14,8 +14,15 @@ var game = {
   _dataStore: '',
   _dataFile: 'userdata.json',
   _userData: {},
-  $_pageContainer: $('#appContainer'),
-  _settingsPage: '#settingsPage',
+  $_pageContainer: $('body'),
+  _pages: { 
+    home: '#homePage',
+    settings: '#settingsPage',
+    scores: '#scoresPage',
+    rules: '#rulesPage',
+    solo: '#vsComputerPage',
+    oponent: '#vsHumanPage'
+  },
   
    
   // ********************************
@@ -28,6 +35,10 @@ var game = {
   //
   initialize: function() {
     game._debug('game.initialize called');
+    
+    // Initialize the pagecontainer.
+    $(game.$_pageContainer).pagecontainer({ defaults: false });
+    
     requestFileSystem(LocalFileSystem.PERSISTENT, 0, game.fileSystemSuccess, game.fileSystemError);
     
     
@@ -68,8 +79,11 @@ var game = {
       }
       else {
         // TODO: Show the settings page for now...need to pull from server eventually.
-        //game.$_pageContainer.pagecontainer('change', game._settingsPage);
+        
+        // TODO: Add timeout before changing page...or implement a splashscreen...
+        $(game.$_pageContainer).pagecontainer('change', game._pages['settings']);
         game._debug('Should change page...');
+        // TODO: Add popup indicating why on the settings page...e.g.: "Looks like you're new here..."
         
       }
     },
